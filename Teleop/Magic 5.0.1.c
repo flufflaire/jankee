@@ -49,8 +49,8 @@ task main() {
 		if (FW_switch1 == 2) FW_switch1 = 0;
 		if (vexRT[Btn6U] == 0 && vexRT[Btn6D] == 0) FW_switch2 = 0;
 
-		if ((FW_switch1 == 1 || vexRT[Btn6U] == 1) && flywheel <= 100) flywheel++;
-		else if ((FW_switch1 == 0 || vexRT[Btn6D] == 1) && flywheel >= 50) flywheel--;
+		if (FW_switch1 == 1 && flywheel <= 100) flywheel++;
+		else if (FW_switch1 == 0 && flywheel >= 50) flywheel--;
 
 		if (vexRT[Btn8U] == 1 && vexRT[Btn8R] == 1) flywheel = 0;
 
@@ -79,6 +79,7 @@ task main() {
 		if (FE_switch1 == 2) FE_switch1 = 0;
 		if (vexRT[Btn5U] == 0) FE_switch2 = 0;
 
-
+		if (FE_switch1 == 1) motor[port4] = 100;
+		else motor[port4] = 0;
 	}
 }
