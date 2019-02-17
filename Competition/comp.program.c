@@ -43,34 +43,27 @@ task autonomous()
 // .....................................................................................
 // Insert user code here.
 // .....................................................................................
-
-	//auto 4.4.1.B
-
-		// go forward
-	motor[port2] = -100;
-	motor[port3] = 100;
-	wait1Msec(1500);
-
-	//stop
+	int flywheel = 0;
+	while (flywheel < 100) {
+		flywheel++;
+		motor[port6] = flywheel;
+		motor[port7] = flywheel * -1;
+		wait1Msec(50);
+	}
+	wait1Msec(2500);
+	motor[port4] = 100;
+	wait1Msec(500);
+	while (flywheel > 0) {
+		flywheel -= 2;
+		motor[port6] = flywheel;
+		motor[port7] = flywheel * -1;
+	}
+	motor[port2] = 50; //wheels move forwards
+	motor[port3] = -60;
+	wait1Msec(2500);
 	motor[port2] = 0;
 	motor[port3] = 0;
-	wait1Msec(600);
-
-	//turn
-	motor[port2] = 100;
-	motor[port3] = 100;
-	wait1Msec(850);
-
-	//stop
-	motor[port2] = 0;
-	motor[port3] = 0;
-	wait1Msec(600);
-
-	//keep going forward
-	motor[port2] = -100;
-	motor[port3] = 100;
-	wait1Msec(2000);
-
+	motor[port4] = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +78,18 @@ task autonomous()
 task usercontrol()
 {
 // User control code here, inside the loop
+	int WH_switch1 = -1;
+	int WH_switch2 = 0;
+	int WH1 = 0;
+	int WH2 = 0;
+	int FW_switch1 = 0;
+	int FW_switch2 = 0;
+	int FW_bob = 0;
+	int flywheel = 0;
+	int IN_switch1 = 0;
+	int IN_switch2 = 0;
+	int FE_switch1 = 0;
+	int FE_switch2 = 0;
 
 	while (true)
 		{
@@ -95,69 +100,80 @@ task usercontrol()
 	// Insert user code here. This is where you use the joystick values to update your motors, etc.
 	// .....................................................................................
 
-		int temp = 0;
-	int temp1 = 0;
-	int x = -1;
-	int y = 0;
-	int a = 1;
-	int b = 0;
-	int d = 0;
-	int e = 0;
-
-	while (true) {
-		if (vexRT[Btn7D] == 1 && y == 0) {
-			x+=2;
-			y = 1;
+		if (vexRT[Btn7D] == 1 && WH_switch2 == 0) { // WHEEL VARIABLES
+			WH_switch1+=2;
+			WH_switch2 = 1;
 		}
-		if (x > 1) x = -1;
-		if (vexRT[Btn7D] == 0) y = 0;
+		if (WH_switch1 > 1) WH_switch1 = -1;
+		if (vexRT[Btn7D] == 0) WH_switch2 = 0;
 
-		if (x > 0) {
-			d = vexRT[Ch2];
-			e = vexRT[Ch3];
+		if (WH_switch1 > 0) {
+			WH1 = vexRT[Ch2];
+			WH2 = vexRT[Ch3];
 		} else {
-			e = vexRT[Ch2];
-			d = vexRT[Ch3];
+			WH2 = vexRT[Ch2];
+			WH1 = vexRT[Ch3];
 		}
 
-    if (e > 30 || e < -30) motor[port3] = (int) e * -0.8 * x; // RIGHT WHEEL
+    if (WH2 > 30 || WH2 < -30) motor[port3] = (int) WH2 * 0.8 * WH_switch1; // RIGHT WHEEL
 		else motor[port3] = 0;
 
-		if (d > 30 || d < -30) motor[port2] = (int) d * 0.8 * x; // LEFT WHEEL
+		if (WH1 > 30 || WH1 < -30) motor[port2] = (int) WH1 * -0.8 * WH_switch1; // LEFT WHEEL
 		else motor[port2] = 0;
 
-		if (vexRT[Btn8D] == 1 && temp1 == 0) {
-			temp++;
-			temp1 = 1;
+		if ((vexRT[Btn6U] == 1 && vexRT[Btn6D] == 1) && FW_switch2 == 0) { //FLYWHEEL VARIABLES
+			FW_switch1++;
+			FW_switch2 = 1;
 		}
-		if (temp == 2) temp = 0;
-		if (vexRT[Btn8D] == 0) temp1 = 0;
-		if (temp == 1) motor[port4] = 100; //Conveyer belt
+		if (FW_switch1 == 2) FW_switch1 = 0;
+		if (vexRT[Btn6U] == 0 && vexRT[Btn6D] == 0) FW_switch2 = 0;
+
+		FW_bob++;
+		if (FW_bob == 3) FW_bob = 0;
+
+		if (FW_bob == 0 && FW_switch1 == 1 && flywheel <= 100) flywheel+=2;
+		else if (FW_switch1 == 0 && flywheel >= 40) flywheel-=2;
+
+		if (vexRT[Btn8U] == 1 && vexRT[Btn8R] == 1) flywheel = 0;
+
+		motor[port6] = flywheel; //flywheel
+		motor[port7] = flywheel * -1;
+
+		if (vexRT[Btn5D] == 1 && IN_switch2 == 0) { //INTAKE VARIABLES
+			IN_switch1++;
+			IN_switch2 = 1;
+		} else if (vexRT[Btn8D] == 1 && IN_switch2 == 0) {
+			IN_switch1--;
+			IN_switch2 = 1;
+		}
+		if (IN_switch1 == 2 || IN_switch1 == -2) IN_switch1 = 0;
+		if (vexRT[Btn5D] == 0 && vexRT[Btn8D] == 0) IN_switch2 = 0;
+
+
+		if (IN_switch1 == 1) motor[port5] = -80; //intake
+		else if (IN_switch1 == -1) motor[port5] = 90;
+		else motor[port5] = 0;
+
+		if (vexRT[Btn8L] == 1) motor[port4] = -50;
+
+		if (vexRT[Btn5U] == 1 && FE_switch2 == 0) { //FEEDER VARIABLES
+			FE_switch1++;
+			FE_switch2 = 1;
+		}
+		if (FE_switch1 == 2) FE_switch1 = 0;
+		if (vexRT[Btn5U] == 0) FE_switch2 = 0;
+
+		if (FE_switch1 == 1) motor[port4] = 100; //FEEDER
 		else motor[port4] = 0;
 
-		if (vexRT[Btn6U] == 1 && b == 0) {
-			a++;
-			b = 1;
-		}
-		if (a == 2) a = 0;
-		if (vexRT[Btn6U] == 0) b = 0;
-		if ((a == 0 && SensorValue[dgtl12] == 0) || vexRT[Btn6D] == 1 ) {
-			motor[port5] = -100;
-			motor[port7] = -100; //Catapult
-		}
-		else {
-			motor[port5] = 0;
-			motor[port7] = 0;
-		}
+		//A_switch: 0 = off / 1 = retract
 
-		if (vexRT[Btn5U] == 0 && vexRT[Btn5D] == 0) motor[port6] = 0; //pancake flipper
-		else if (vexRT[Btn5U] == 1) motor[port6] = 60;
-		else if (vexRT[Btn5D] == 1) motor[port6] = -60;
-		else motor[port6] = 0;
-
-
-
+		if (vexRT[Btn7U] == 1) { //ARM
+			motor[port8] = 100;
+		} else if(vexRT[Btn7L] == 1) {
+			motor[port8] = -100;
+		} else if(vexRT[Btn7R] == 1) {
+			motor[port8] = -15;
+		} else motor[port8] = 0;
 	}
-}
-
 }

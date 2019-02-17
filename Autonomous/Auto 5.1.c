@@ -7,31 +7,37 @@
 #pragma config(Motor,  port8,            ,             tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port9,            ,             tmotorServoContinuousRotation, openLoop)
 
-//port 2 & 3 - wheels
-//port 5 - bottom roller
-//port 4 - top roller
-//port 6 & 7 - flywheel
-//port 8 - arm
-task main() {
-	int flywheel = 0;
-	while (flywheel < 100) {
-		flywheel++;
-		motor[port6] = flywheel;
-		motor[port7] = flywheel * -1;
-		wait1Msec(50);
+//port 2: Wheel (positive)
+//port 3: Wheel (positive)
+//port 4: Feeder (positive)
+//port 5: Intake (positive)
+//port 6: Flywheel (positive)
+//port 7: Flywheel (negative)
+
+task main()
+{
+	for (int i = 0; i < 85; i++) {
+			motor[port6] = i;
+			motor[port7] = -i;
 	}
-	wait1Msec(2500);
-	motor[port4] = 100;
-	wait1Msec(500);
-	while (flywheel > 0) {
-		flywheel -= 2;
-		motor[port6] = flywheel;
-		motor[port7] = flywheel * -1;
-	}
-	motor[port2] = 50; //wheels move forwards
-	motor[port3] = -60;
-	wait1Msec(2500);
-	motor[port2] = 0;
-	motor[port3] = 0;
+	wait1Msec(5500);
+	motor[port4] = 90;
+	wait1Msec(1000);
 	motor[port4] = 0;
+	motor[port2] = -80;
+	motor[port3] = -100;
+	for (int i = 100; i > 40; i--) {
+		motor[port6] = i;
+		motor[port7] = -i;
+	}
+	wait1Msec(3000);
+	motor[port6] = 0;
+	motor[port7] = 0;
+	motor[port2] = 80;
+	motor[port3] = 100;
+	wait1Msec(4000);
+	motor[port2] = -100;
+	motor[port3] = 100;
+	wait1Msec(2000);
+
 }
