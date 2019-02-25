@@ -31,11 +31,11 @@ task main() {
 		if (vexRT[Btn7D] == 0) WH_switch2 = 0;
 
 		if (WH_switch1 > 0) {
-			WH1 = (int) vexRT[Ch2] * .79 * WH_switch1;
-			WH2 = (int) vexRT[Ch3] * .79 * WH_switch1;
+			WH1 = (int) vexRT[Ch2] * .63 * WH_switch1;
+			WH2 = (int) vexRT[Ch3] * .63 * WH_switch1;
 		} else {
-			WH2 = (int) vexRT[Ch2] * .79 * WH_switch1;
-			WH1 = (int) vexRT[Ch3] * .79 * WH_switch1;
+			WH2 = (int) vexRT[Ch2] * .63 * WH_switch1;
+			WH1 = (int) vexRT[Ch3] * .63 * WH_switch1;
 		}
 
 		//RIGHT WHEEL
@@ -60,7 +60,7 @@ task main() {
 		if (FW_switch1 == 2) FW_switch1 = 0;
 		if (vexRT[Btn6U] == 0 && vexRT[Btn6D] == 0) FW_switch2 = 0;
 
-		if (FW_switch1 == 1 && flywheel < 100) flywheel++;
+		if (FW_switch1 == 1 && flywheel < 90) flywheel++;
 		else if (FW_switch1 == 0 && flywheel > 40) flywheel --;
 
 		if (vexRT[Btn8U] == 1 && vexRT[Btn8R] == 1 && FW_switch1 == 0 && flywheel < 50) flywheel = 0;
