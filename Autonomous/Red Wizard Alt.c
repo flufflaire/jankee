@@ -17,18 +17,14 @@ task main()
 	motor[port4] = 90;
 	wait1Msec(1000);
 	motor[port4] = 0;
-	for(int i = 100; i > 0; i--) {
-		motor[port6] = i;
-		motor[port7] = -i;
-	}
+	motor[port6] = 0;;
+	motor[port7] = 0;
 	motor[port2] = -60;
 	motor[port3] = -80;
 	wait1Msec(1500);
 	motor[port2] = -30;
 	motor[port3] = -30;
 	wait1Msec(520);
-	motor[port6] = 0;
-	motor[port7] = 0;
 	motor[port2] = 90;
 	motor[port3] = 90;
 	motor[port5] = -90;

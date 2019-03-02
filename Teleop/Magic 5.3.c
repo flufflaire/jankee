@@ -31,11 +31,11 @@ task main() {
 		if (vexRT[Btn7D] == 0) WH_switch2 = 0;
 
 		if (WH_switch1 > 0) {
-			WH1 = (int) vexRT[Ch2] * .63 * WH_switch1;
-			WH2 = (int) vexRT[Ch3] * .63 * WH_switch1;
+			WH1 = (int) vexRT[Ch2] * .71 * WH_switch1;
+			WH2 = (int) vexRT[Ch3] * .71 * WH_switch1;
 		} else {
-			WH2 = (int) vexRT[Ch2] * .63 * WH_switch1;
-			WH1 = (int) vexRT[Ch3] * .63 * WH_switch1;
+			WH2 = (int) vexRT[Ch2] * .71 * WH_switch1;
+			WH1 = (int) vexRT[Ch3] * .71 * WH_switch1;
 		}
 
 		//RIGHT WHEEL

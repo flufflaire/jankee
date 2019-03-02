@@ -9,30 +9,27 @@
 
 task main()
 {
-	for(int i = 0; i < 90; i++) {
-		motor[port6] = i;
-		motor[port7] = -i;
-	}
-	wait1Msec(4000);
-	motor[port4] = 90;
+	motor[port2] = 90;
+	motor[port3] = 90;
+	motor[port5] = 80;
+	wait1Msec(1500);
+	motor[port5] = -90;
+	motor[port2] = -90;
+	motor[port3] = -90;
+	wait1Msec(300);
+	motor[port2] = 0;
+	motor[port3] = 0;
 	wait1Msec(1000);
-	motor[port4] = 0;
-	for(int i = 90; i > 0; i--) {
-		motor[port6] = i;
-		motor[port7] = -i;
-	}
-	motor[port2] = 80;
-	motor[port3] = 80;
-	wait1Msec(800);
-	motor[port2] = -80;
-	wait1Msec(530);
-	motor[port3] = -80;
-	motor[port6] = 0;
-	motor[port7] = 0;
-	wait1Msec(1400);
-	motor[port2] = -40;
-	motor[port3] = -40;
+	motor[port2] = -90;
+	motor[port3] = 90;
+	wait1Msec(330);
+	motor[port2] = 90;
+  wait1Msec(700);
+	motor[port2] = -90;
+	motor[port3] = -90;
 	wait1Msec(500);
 	motor[port2] = 0;
 	motor[port3] = 0;
+	motor[port5] = 80;
+
 }
