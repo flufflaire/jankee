@@ -11,11 +11,23 @@ task main()
 {
 motor[port2] = -60;
 	motor[port3] = -80;
-	wait1Msec(1550);
+	wait1Msec(1500);
+	motor[port2] = -30;
+	motor[port3] = -30;
+	wait1Msec(530);
 	motor[port6] = 0;
 	motor[port7] = 0;
+	motor[port2] = 90;
+	motor[port3] = 90;
+	motor[port5] = -90;
+	wait1Msec(850);
+	motor[port3] = -90;
+	wait1Msec(500);
+	motor[port3] = 90;
+	wait1Msec(850);
 	motor[port2] = 0;
 	motor[port3] = 0;
-
+	wait1Msec(2000);
+	motor[port5] = 0;
 
 }

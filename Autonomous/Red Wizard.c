@@ -13,11 +13,11 @@ task main()
 		motor[port6] = i;
 		motor[port7] = -i;
 	}
-	wait1Msec(6000);
+	wait1Msec(4000);
 	motor[port4] = 90;
 	wait1Msec(1000);
 	motor[port4] = 0;
-	for(int i = 90; i > 40; i--) {
+	for(int i = 90; i > 0; i--) {
 		motor[port6] = i;
 		motor[port7] = -i;
 	}

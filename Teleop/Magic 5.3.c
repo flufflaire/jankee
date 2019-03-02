@@ -61,9 +61,9 @@ task main() {
 		if (vexRT[Btn6U] == 0 && vexRT[Btn6D] == 0) FW_switch2 = 0;
 
 		if (FW_switch1 == 1 && flywheel < 90) flywheel++;
-		else if (FW_switch1 == 0 && flywheel > 40) flywheel --;
+		else if (FW_switch1 == 0 && flywheel > 0) flywheel --;
 
-		if (vexRT[Btn8U] == 1 && vexRT[Btn8R] == 1 && FW_switch1 == 0 && flywheel < 50) flywheel = 0;
+		// if (vexRT[Btn8U] == 1 && vexRT[Btn8R] == 1 && FW_switch1 == 0 && flywheel < 50) flywheel = 0;
 
 		//FLYWHEEL
 		motor[port6] = flywheel;
